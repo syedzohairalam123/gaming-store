@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaming Accessories Store</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+        <nav>
+      <a href="index.html" class="logo-link"><h1>Gaming<span>Store</span></h1></a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="cart-nav-btn" id="cartNavBtn">🛒 Cart<span class="cart-badge hidden" id="cartBadge">0</span></button>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header"><h2>Your <span>Cart</span></h2><button class="cart-close-btn" id="cartCloseBtn">&times;</button></div>
+      <div class="cart-items-list" id="cartItemsList"></div>
+      <div class="cart-footer">
+        <div class="cart-summary"><span id="cartSummaryCount">0 items</span><strong>Ready to order?</strong></div>
+        <button class="cart-checkout-btn" id="cartCheckoutBtn">🚀 Checkout Now</button>
+        <button class="cart-clear-btn" id="cartClearBtn">Clear Cart</button>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-modal-overlay" id="checkoutModal">
+      <div class="checkout-modal">
+        <button class="checkout-close-btn" id="checkoutCloseBtn">&times;</button>
+        <h2>🛒 Checkout</h2>
+        <p class="sub">Review your items and confirm order</p>
+        <div class="checkout-items-summary"><div id="checkoutItemLines"></div></div>
+        <input type="text" id="checkoutName" placeholder="Your Full Name" />
+        <input type="email" id="checkoutEmail" placeholder="Your Email Address" />
+        <input type="tel" id="checkoutPhone" placeholder="Your Phone Number" />
+        <button class="checkout-submit-btn" id="checkoutSubmitBtn">CONFIRM ORDER</button>
+        <div class="checkout-msg" id="checkoutMsg"></div>
+      </div>
+    </div>
+    </div>
+
+    <!-- Main Banner -->
+    <section class="main-banner1">
+      <div class="banner-content1">
+        <h1>Welcome to Gaming Accessories Store</h1>
+        <p>Your one-stop shop for all gaming needs! Explore the best accessories to elevate your gaming experience.</p>
+        <a href="contact.html" class="btn">Contact us</a>
+      </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="cards-section">
+      <h2>Featured Categories</h2>
+      <div class="cards-container">
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1356366044/photo/black-mechanical-keyboard-on-white-background-blue-neon-light.jpg?s=612x612&w=0&k=20&c=GhpZsK36fsuoSP-4-pR7ma9UeIApatkBq6M-bnXFf1c=" alt="Gaming Keyboards" />
+          <h3>Gaming Keyboards</h3>
+          <p>Experience precision and speed with our top-quality gaming keyboards.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Keyboards">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Keyboards');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1197265704/photo/green-gaming-mouse-on-stone-texture-table.jpg?s=612x612&w=0&k=20&c=ePityE1dOXLc2-ANcDYakN7qJQkIHA9vV8rFP_5E1ss=" alt="Gaming Mice" />
+          <h3>Gaming Mice</h3>
+          <p>Enhance your accuracy with our ergonomic gaming mice.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Mice">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Mice');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1306073552/vector/black-realistic-headphones-gaming-headset-listening-audio-electronic-device-3d-stereo-earbuds.jpg?s=612x612&w=0&k=20&c=daYW6kyFW9w1aIDs30DboVRsbedL2mR8zXpsrjRq_94=" alt="Gaming Headsets" />
+          <h3>Gaming Headsets</h3>
+          <p>Immerse yourself in the game with crystal-clear audio.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Headsets">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Headsets');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1560833158/photo/game-controller-with-purple-lit-keyboard-amidst-various-wireless-devices.jpg?s=612x612&w=0&k=20&c=eOYotPVhXSiFkrSLHsDjpUENG3ev7bnbt-iK6RS6KAM=" alt="Gaming Controllers" />
+          <h3>Gaming Controllers</h3>
+          <p>Take control with our versatile gaming controllers.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Controllers">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Controllers');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1195376803/photo/gamer-focused-on-his-game.webp?a=1&b=1&s=612x612&w=0&k=20&c=lC_JEmBAsjdhG5liwuY_ZUorDUFxjDzALeNeodj21pY=" alt="Gaming Monitors" />
+          <h3>Gaming Monitors</h3>
+          <p>Enjoy stunning visuals and smooth gameplay with our high-performance monitors.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Monitors">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Monitors');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1305168473/photo/all-angels-view-of-black-and-yellow-office-chair-isolated-on-white.webp?a=1&b=1&s=612x612&w=0&k=20&c=WfLoC5TDJSRiDtvZH8o8U90WP84pw5euOsPtq0xUTsE=" alt="Gaming Chairs" />
+          <h3>Gaming Chairs</h3>
+          <p>Maximize your comfort during long gaming sessions with our ergonomic chairs.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Chairs">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Chairs');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1526509706191-c268f28e9ecb?w=500&auto=format&fit=crop&q=60" alt="Gaming Consoles" />
+          <h3>Gaming Consoles</h3>
+          <p>Unlock next-level gaming with our state-of-the-art consoles, designed for seamless performance.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Consoles">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Consoles');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1648300438/photo/studio-microphone-with-headphones-and-neon-lighting.webp?a=1&b=1&s=612x612&w=0&k=20&c=wbUfqHv_w0MkQle0NSD-rnqv7PH2SZ22ynNMcgQT3hw=" alt="Gaming Microphones" />
+          <h3>Gaming Microphones</h3>
+          <p>Achieve crystal-clear communication and professional-grade audio for an unparalleled gaming.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Microphones">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Microphones');openCart()">Buy Now</button>
+          </div>
+        </div>
+      </div>
+      <div class="butn">
+        <a href="products.html" class="red">View More</a>
+      </div>
+    </section>
+
+    <!-- Stylish Center Image Section -->
+    <section class="stylish-center-image-section">
+      <div class="content-box content-left">
+        <h2>Why Choose Us?</h2>
+        <p>Discover the ultimate gaming experience with our premium accessories. Elevate your skills with gear that blends style, precision, and comfort.</p>
+        <ul>
+          <li>Innovative Designs</li>
+          <li>Top-notch Quality</li>
+          <li>Unmatched Support</li>
+        </ul>
+      </div>
+      <div class="center-image">
+        <img src="https://ronin.pk/cdn/shop/files/R-1500HeadphoneBlue1.png?v=1713254167" alt="Gaming Accessories" />
+      </div>
+      <div class="content-box content-right">
+        <h2>What We Offer</h2>
+        <p>Browse our curated collection of gaming essentials. From keyboards to headsets, we have everything you need to take your setup to the next level.</p>
+        <ul>
+          <li>Exclusive Deals</li>
+          <li>Trusted Brands</li>
+          <li>Fast Delivery</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Google Reviews Section -->
+    <section class="reviews-section">
+      <h2>Customer Reviews</h2>
+      <div class="reviews-container">
+        <div class="review-card">
+          <div class="review-header">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/026/408/485/small/man-lifestyle-portrait-hipster-serious-t-shirt-isolated-person-white-background-american-smile-confident-fashion-photo.jpg" alt="User Photo" class="review-photo" />
+            <div><h3>John Doe</h3><p>★★★★★</p></div>
+          </div>
+          <p class="review-text">"Amazing store with top-quality gaming accessories. Highly recommended!"</p>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/026/408/485/small/man-lifestyle-portrait-hipster-serious-t-shirt-isolated-person-white-background-american-smile-confident-fashion-photo.jpg" alt="User Photo" class="review-photo" />
+            <div><h3>Jane Smith</h3><p>★★★★☆</p></div>
+          </div>
+          <p class="review-text">"Great selection of products, but the delivery could be faster."</p>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/026/408/485/small/man-lifestyle-portrait-hipster-serious-t-shirt-isolated-person-white-background-american-smile-confident-fashion-photo.jpg" alt="User Photo" class="review-photo" />
+            <div><h3>Michael Lee</h3><p>★★★★★</p></div>
+          </div>
+          <p class="review-text">"Excellent customer service and amazing quality items!"</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="faqs-section">
+      <div class="faqs-container">
+        <div class="faqs-left">
+          <h2>Frequently Asked Questions</h2>
+          <div class="accordion">
+            <div class="faq">
+              <h3 class="faq-question">What types of gaming accessories do you offer?</h3>
+              <p class="faq-answer">We offer keyboards, mice, headsets, chairs, monitors, and more!</p>
+            </div>
+            <div class="faq">
+              <h3 class="faq-question">Do you provide international shipping?</h3>
+              <p class="faq-answer">Yes, we ship worldwide with competitive rates.</p>
+            </div>
+            <div class="faq">
+              <h3 class="faq-question">What payment methods are accepted?</h3>
+              <p class="faq-answer">We accept major credit cards, PayPal, and other secure options.</p>
+            </div>
+            <div class="faq">
+              <h3 class="faq-question">Can I return a product if I'm not satisfied?</h3>
+              <p class="faq-answer">Yes, we offer a hassle-free 30-day return policy.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faqs-right">
+          <h2>Why Choose Us?</h2>
+          <p>At our store, we combine quality and affordability to provide the best gaming accessories. Whether you're a casual player or a professional gamer, we have something for everyone.</p>
+          <ul>
+            <li>✅ Premium products</li>
+            <li>✅ Competitive pricing</li>
+            <li>✅ Trusted customer support</li>
+          </ul>
+          <a href="contact.html" class="btn">Get in Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Gaming Accessories. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    
+      <script src="cart.js"></script>
+  </body>
+</html>

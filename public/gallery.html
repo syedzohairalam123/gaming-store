@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaming Accessories Store</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+        <nav>
+      <a href="index.html" class="logo-link"><h1>Gaming<span>Store</span></h1></a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="cart-nav-btn" id="cartNavBtn">🛒 Cart<span class="cart-badge hidden" id="cartBadge">0</span></button>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header"><h2>Your <span>Cart</span></h2><button class="cart-close-btn" id="cartCloseBtn">&times;</button></div>
+      <div class="cart-items-list" id="cartItemsList"></div>
+      <div class="cart-footer">
+        <div class="cart-summary"><span id="cartSummaryCount">0 items</span><strong>Ready to order?</strong></div>
+        <button class="cart-checkout-btn" id="cartCheckoutBtn">🚀 Checkout Now</button>
+        <button class="cart-clear-btn" id="cartClearBtn">Clear Cart</button>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-modal-overlay" id="checkoutModal">
+      <div class="checkout-modal">
+        <button class="checkout-close-btn" id="checkoutCloseBtn">&times;</button>
+        <h2>🛒 Checkout</h2>
+        <p class="sub">Review your items and confirm order</p>
+        <div class="checkout-items-summary"><div id="checkoutItemLines"></div></div>
+        <input type="text" id="checkoutName" placeholder="Your Full Name" />
+        <input type="email" id="checkoutEmail" placeholder="Your Email Address" />
+        <input type="tel" id="checkoutPhone" placeholder="Your Phone Number" />
+        <button class="checkout-submit-btn" id="checkoutSubmitBtn">CONFIRM ORDER</button>
+        <div class="checkout-msg" id="checkoutMsg"></div>
+      </div>
+    </div>
+
+    <!-- Main Banner -->
+    <section class="main-banner3">
+      <div class="banner-content3">
+        <h1>Explore Our Gaming World</h1>
+        <p>
+          Discover premium gaming accessories that elevate your gaming
+          experience. From state-of-the-art keyboards to immersive headphones,
+          we have it all. Check out our gallery for a closer look at what we
+          offer!
+        </p>
+        <a href="contact.html" class="btn">Contact us</a>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+      <h2>Explore Our Gallery</h2>
+      <div class="gallery-container">
+        <div class="gallery-item">
+          <img src="https://media.istockphoto.com/id/1336070398/photo/video-card-with-fan-gaming-graphics-card-for-video-games-and-cryptocurrency-mining-game-video.jpg?s=612x612&w=0&k=20&c=4WwYhSFvcuSV2Ga7VefUnPD8_RINpR8q0AGMco8AUOQ=" alt="Graphic Cards" />
+          <div class="overlay">
+            <h3>Graphic Cards</h3>
+            <p>Upgrade your gaming experience with powerful graphics cards designed for high-resolution visuals and seamless performance.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://media.istockphoto.com/id/1648300438/photo/studio-microphone-with-headphones-and-neon-lighting.webp?a=1&b=1&s=612x612&w=0&k=20&c=wbUfqHv_w0MkQle0NSD-rnqv7PH2SZ22ynNMcgQT3hw=" alt="Gaming microphones" />
+          <div class="overlay">
+            <h3>Gaming Microphones</h3>
+            <p>Achieve crystal-clear communication and professional-grade audio for an unparalleled gaming or streaming experience.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://media.istockphoto.com/id/2060019100/photo/close-up-inside-hi-performance-custom-computer-desktop.jpg?s=612x612&w=0&k=20&c=lKv8pwk_PBVSqkH7NN0oXj7GfCp6NxSBnf0QU72GV3w=" alt="Gaming Cooling System" />
+          <div class="overlay">
+            <h3>Gaming Cooling System</h3>
+            <p>Keep your gaming rig cool and running smoothly with advanced cooling systems designed to prevent overheating during intense gaming sessions.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://media.istockphoto.com/id/1147017859/photo/battle-station-gaming-rig-with-multiple-monitors-for-gamers-coders-miners-designers-renderers.jpg?s=612x612&w=0&k=20&c=NyFzSmlVNu-LVsf47hQe7sbgF6mrHcIdijd0td0Prmg=" alt="Gaming Monitor" />
+          <div class="overlay">
+            <h3>Gaming Monitor</h3>
+            <p>Smooth visuals with our high-performance gaming monitors.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://english.cdn.zeenews.com/sites/default/files/2024/08/01/1456452-tech-talk-gaming-pc-accessories-hero-image.jpeg" alt="Gaming Accessories" />
+          <div class="overlay">
+            <h3>Gaming Accessories</h3>
+            <p>Explore the best gaming accessories to enhance your gaming experience.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://media.istockphoto.com/id/183386995/photo/typing-on-keyboard.jpg?s=1024x1024&w=is&k=20&c=_SL8yuOVZxr_24oHFiW0dYXCmLwdtP1GVGWvwSEQDUI=" alt="Gaming Keyboard" />
+          <div class="overlay">
+            <h3>Gaming Keyboard</h3>
+            <p>Experience speed and precision with our premium gaming keyboards.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&auto=format&fit=crop&q=60" alt="Gaming Mouse" />
+          <div class="overlay">
+            <h3>Gaming Mouse</h3>
+            <p>Enhance your gameplay with our high-precision gaming mice.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://media.istockphoto.com/id/887522434/photo/the-office-chair-from-black-leather-isolated.jpg?s=1024x1024&w=is&k=20&c=xVY3ezbvKiDpIAm6t175t0nMfCB5Z-t7EKmLX-088S4=" alt="Gaming Chair" />
+          <div class="overlay">
+            <h3>Gaming Chair</h3>
+            <p>Stay comfortable and focused for hours of intense gaming sessions.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=500&auto=format&fit=crop&q=60" alt="Gaming Console" />
+          <div class="overlay">
+            <h3>Gaming Console</h3>
+            <p>Unleash your gaming power with the latest gaming consoles.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1572811781078-14a8f6b03982?q=80&w=1374&auto=format&fit=crop" alt="Gaming Controller" />
+          <div class="overlay">
+            <h3>Gaming Controller</h3>
+            <p>Take control of your game with our ergonomic gaming controllers.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1583305727488-61f82c7eae4b?q=80&w=1374&auto=format&fit=crop" alt="Gaming Headset" />
+          <div class="overlay">
+            <h3>Gaming Headset</h3>
+            <p>Immerse yourself with crystal-clear sound for an edge in every game.</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=500&auto=format&fit=crop&q=60" alt="Gaming PC" />
+          <div class="overlay">
+            <h3>Gaming PC</h3>
+            <p>Build your dream gaming PC for top-tier performance and speed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Gaming Accessories. All rights reserved.</p>
+    </footer>
+      <script src="cart.js"></script>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaming Accessories Store</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+        <nav>
+      <a href="index.html" class="logo-link"><h1>Gaming<span>Store</span></h1></a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="cart-nav-btn" id="cartNavBtn">🛒 Cart<span class="cart-badge hidden" id="cartBadge">0</span></button>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header"><h2>Your <span>Cart</span></h2><button class="cart-close-btn" id="cartCloseBtn">&times;</button></div>
+      <div class="cart-items-list" id="cartItemsList"></div>
+      <div class="cart-footer">
+        <div class="cart-summary"><span id="cartSummaryCount">0 items</span><strong>Ready to order?</strong></div>
+        <button class="cart-checkout-btn" id="cartCheckoutBtn">🚀 Checkout Now</button>
+        <button class="cart-clear-btn" id="cartClearBtn">Clear Cart</button>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-modal-overlay" id="checkoutModal">
+      <div class="checkout-modal">
+        <button class="checkout-close-btn" id="checkoutCloseBtn">&times;</button>
+        <h2>🛒 Checkout</h2>
+        <p class="sub">Review your items and confirm order</p>
+        <div class="checkout-items-summary"><div id="checkoutItemLines"></div></div>
+        <input type="text" id="checkoutName" placeholder="Your Full Name" />
+        <input type="email" id="checkoutEmail" placeholder="Your Email Address" />
+        <input type="tel" id="checkoutPhone" placeholder="Your Phone Number" />
+        <button class="checkout-submit-btn" id="checkoutSubmitBtn">CONFIRM ORDER</button>
+        <div class="checkout-msg" id="checkoutMsg"></div>
+      </div>
+    </div>
+
+    <!-- Main Banner -->
+    <section class="main-banner4">
+      <div class="banner-content4">
+        <h1>Get in Touch with Us</h1>
+        <p>
+          We're here to assist you! If you have any questions or need support,
+          feel free to reach out. Our team is ready to help with any inquiries.
+          Contact us using the details below, and we'll get back to you as soon
+          as possible.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <div class="contact-section">
+      <div class="contact-form">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+          <input type="text" id="name" placeholder="Your Name" required />
+          <input type="email" id="email" placeholder="Your Email" required />
+          <input type="text" id="subject" placeholder="Subject" required />
+          <textarea rows="5" id="message" placeholder="Your Message" required></textarea>
+          <button type="submit" id="contactSubmitBtn">Send Message</button>
+        </form>
+        <p id="responseMessage"></p>
+      </div>
+      <div class="contact-info">
+        <h3>Get In Touch</h3>
+        <p class="cont">
+          We're here to assist you! If you have any questions or need support,
+          feel free to reach out. Our team is ready to help with any inquiries.
+        </p>
+        <p>Call Us: <a href="tel:+1232341234">+123-234-1234</a></p>
+        <p>Email Us: <a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
+        <p>Address: <a href="#">DHA Suffa University, Phase 7 Ext Karachi, Pakistan</a></p>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.837284791982!2d-122.08424908468188!3d37.42199977982671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb24a8f2d9e07%3A0xf4b5f81d0e9f7b17!2sGoogleplex!5e0!3m2!1sen!2sus!4v1624622070401!5m2!1sen!2sus"
+        width="100%"
+        height="400"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Gaming Accessories. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+      <script src="cart.js"></script>
+  </body>
+</html>

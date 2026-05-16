@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaming Accessories Store</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+        <nav>
+      <a href="index.html" class="logo-link"><h1>Gaming<span>Store</span></h1></a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="cart-nav-btn" id="cartNavBtn">🛒 Cart<span class="cart-badge hidden" id="cartBadge">0</span></button>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header"><h2>Your <span>Cart</span></h2><button class="cart-close-btn" id="cartCloseBtn">&times;</button></div>
+      <div class="cart-items-list" id="cartItemsList"></div>
+      <div class="cart-footer">
+        <div class="cart-summary"><span id="cartSummaryCount">0 items</span><strong>Ready to order?</strong></div>
+        <button class="cart-checkout-btn" id="cartCheckoutBtn">🚀 Checkout Now</button>
+        <button class="cart-clear-btn" id="cartClearBtn">Clear Cart</button>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-modal-overlay" id="checkoutModal">
+      <div class="checkout-modal">
+        <button class="checkout-close-btn" id="checkoutCloseBtn">&times;</button>
+        <h2>🛒 Checkout</h2>
+        <p class="sub">Review your items and confirm order</p>
+        <div class="checkout-items-summary"><div id="checkoutItemLines"></div></div>
+        <input type="text" id="checkoutName" placeholder="Your Full Name" />
+        <input type="email" id="checkoutEmail" placeholder="Your Email Address" />
+        <input type="tel" id="checkoutPhone" placeholder="Your Phone Number" />
+        <button class="checkout-submit-btn" id="checkoutSubmitBtn">CONFIRM ORDER</button>
+        <div class="checkout-msg" id="checkoutMsg"></div>
+      </div>
+    </div>
+    </div>
+
+    <section class="main-banner2">
+      <div class="banner-content2">
+        <h1>Discover Premium Gaming Accessories</h1>
+        <p>Explore an extensive collection of top-notch products tailored to elevate your gaming experience.</p>
+        <a href="contact.html" class="btn">Contact us</a>
+      </div>
+    </section>
+
+    <section class="cards-section">
+      <h2>Featured Categories</h2>
+      <div class="cards-container">
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1191175480/photo/esport-rgb-mouse-and-keyboard.webp?a=1&b=1&s=612x612&w=0&k=20&c=TFkZWaseEh-_GC3EomKFLSg1IQmkXRqZtL70bj1FNH0=" alt="Gaming Keyboards" />
+          <h3>Gaming Keyboards</h3>
+          <p>Discover unparalleled precision and speed with our premium gaming keyboards.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Keyboards">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Keyboards');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/2089095638/photo/closeup-male-hand-online-esport.webp?a=1&b=1&s=612x612&w=0&k=20&c=qzJBfm4stOB6p3_8_vfPkrBE1EgpBkqTy6GxCqznXrQ=" alt="Gaming Mice" />
+          <h3>Gaming Mouse</h3>
+          <p>Boost your accuracy and gameplay with ergonomically designed gaming mice.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Mouse">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Mouse');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1182209797/photo/close-view-of-wireless-black-gaming-headphones-with-microphone-isolated-on-white-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=34iyIQfsQ2U99uBNZgA0w_x29RyZxwoEfebV8BteDLo=" alt="Gaming Headsets" />
+          <h3>Gaming Headsets</h3>
+          <p>Immerse yourself in exceptional sound quality with our advanced gaming headsets.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Headsets">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Headsets');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1585620385456-4759f9b5c7d9?w=500&auto=format&fit=crop&q=60" alt="Gaming Controllers" />
+          <h3>Gaming Controllers</h3>
+          <p>Experience ultimate control and comfort with our versatile gaming controllers.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Controllers">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Controllers');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1195376803/photo/gamer-focused-on-his-game.webp?a=1&b=1&s=612x612&w=0&k=20&c=lC_JEmBAsjdhG5liwuY_ZUorDUFxjDzALeNeodj21pY=" alt="Gaming Monitors" />
+          <h3>Gaming Monitors</h3>
+          <p>Enjoy stunning visuals and smooth gameplay with our high-performance monitors.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Monitors">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Monitors');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1305168473/photo/all-angels-view-of-black-and-yellow-office-chair-isolated-on-white.webp?a=1&b=1&s=612x612&w=0&k=20&c=WfLoC5TDJSRiDtvZH8o8U90WP84pw5euOsPtq0xUTsE=" alt="Gaming Chairs" />
+          <h3>Gaming Chairs</h3>
+          <p>Maximize your comfort during long gaming sessions with our ergonomic chairs.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Chairs">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Chairs');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1526509706191-c268f28e9ecb?w=500&auto=format&fit=crop&q=60" alt="Gaming Consoles" />
+          <h3>Gaming Consoles</h3>
+          <p>Unlock next-level gaming with our state-of-the-art consoles, designed for seamless performance.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Consoles">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Consoles');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1648300438/photo/studio-microphone-with-headphones-and-neon-lighting.webp?a=1&b=1&s=612x612&w=0&k=20&c=wbUfqHv_w0MkQle0NSD-rnqv7PH2SZ22ynNMcgQT3hw=" alt="Gaming Microphones" />
+          <h3>Gaming Microphones</h3>
+          <p>Achieve crystal-clear communication and professional-grade audio for an unparalleled gaming.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Microphones">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Microphones');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1358696742/photo/generic-virtual-reality-headset-with-left-and-right-hand-controllers.jpg?s=612x612&w=0&k=20&c=Px_l_82SHMGB7e5vSTvgrkTGbnUyMFm6k_4NeFnDmRY=" alt="Gaming VR Headsets" />
+          <h3>Gaming VR Headsets</h3>
+          <p>Immerse yourself in stunning virtual worlds with cutting-edge visuals and unparalleled comfort.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming VR Headsets">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming VR Headsets');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1560831922/photo/digital-tablet-amidst-various-wireless-devices.jpg?s=612x612&w=0&k=20&c=90aN2csvW7uzwXvD-RlQKUu23nbH_vYb8yqXHDbhh0k=" alt="Gaming Mouse Pads" />
+          <h3>Gaming Mouse Pads</h3>
+          <p>Enhance your precision and comfort with our high-performance gaming mouse pads.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Gaming Mouse Pads">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Gaming Mouse Pads');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1336070398/photo/video-card-with-fan-gaming-graphics-card-for-video-games-and-cryptocurrency-mining-game-video.jpg?s=612x612&w=0&k=20&c=4WwYhSFvcuSV2Ga7VefUnPD8_RINpR8q0AGMco8AUOQ=" alt="Graphics Card" />
+          <h3>Graphics Card</h3>
+          <p>Upgrade your gaming experience with powerful graphics cards designed for high-resolution visuals.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Graphics Card">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Graphics Card');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/2060019100/photo/close-up-inside-hi-performance-custom-computer-desktop.jpg?s=612x612&w=0&k=20&c=lKv8pwk_PBVSqkH7NN0oXj7GfCp6NxSBnf0QU72GV3w=" alt="Cooling System" />
+          <h3>Cooling System</h3>
+          <p>Keep your gaming rig cool and running smoothly with advanced cooling systems designed.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Cooling System">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Cooling System');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1147017859/photo/battle-station-gaming-rig-with-multiple-monitors-for-gamers-coders-miners-designers-renderers.jpg?s=612x612&w=0&k=20&c=NyFzSmlVNu-LVsf47hQe7sbgF6mrHcIdijd0td0Prmg=" alt="RGB Lights Kits" />
+          <h3>RGB Lights Kits</h3>
+          <p>Customize your gaming setup with vibrant RGB lighting kits, offering stunning effects to enhance your gaming atmosphere.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="RGB Lights Kits">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('RGB Lights Kits');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1397022068/photo/cybersport-gamer-have-live-stream.jpg?s=612x612&w=0&k=20&c=kOu05H4HyADDOfhQKMd78cW6S40_8tlyunw9NbdT0as=" alt="Streaming Gears" />
+          <h3>Streaming Gears</h3>
+          <p>Elevate your live streams with top-tier streaming gear, designed for seamless performance and professional-quality broadcasts.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Streaming Gears">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Streaming Gears');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1302611020/photo/telecommuting-remote-work-working-late-concepts.jpg?s=612x612&w=0&k=20&c=Mj351iowHho5z7BgoHUxhGs4JQB6_kvcYlhYhWvyapQ=" alt="Anti-Fatigue Mats" />
+          <h3>Anti-Fatigue Mats</h3>
+          <p>Reduce strain and enhance comfort during long gaming sessions with our ergonomic anti-fatigue mats.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Anti-Fatigue Mats">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Anti-Fatigue Mats');openCart()">Buy Now</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://media.istockphoto.com/id/1400969523/photo/gaming-desk.jpg?s=612x612&w=0&k=20&c=fHl6jHp3Ck5ukXJp37QqTRNKlNo60gBlQ_Y1FKPrhXk=" alt="Monitor Stands" />
+          <h3>Monitor Stands</h3>
+          <p>Elevate your gaming setup with our durable monitor stands and mounts, providing optimal ergonomics and enhanced viewing angles.</p>
+          <div class="card-actions">
+            <button class="add-cart-btn" data-product="Monitor Stands">+ Add to Cart</button>
+            <button class="btn buy-btn" onclick="addToCart('Monitor Stands');openCart()">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Gaming Accessories. All rights reserved.</p>
+    </footer>
+
+    
+      <script src="cart.js"></script>
+  </body>
+</html>

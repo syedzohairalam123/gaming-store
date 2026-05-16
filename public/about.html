@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaming Accessories Store</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+        <nav>
+      <a href="index.html" class="logo-link"><h1>Gaming<span>Store</span></h1></a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="cart-nav-btn" id="cartNavBtn">🛒 Cart<span class="cart-badge hidden" id="cartBadge">0</span></button>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header"><h2>Your <span>Cart</span></h2><button class="cart-close-btn" id="cartCloseBtn">&times;</button></div>
+      <div class="cart-items-list" id="cartItemsList"></div>
+      <div class="cart-footer">
+        <div class="cart-summary"><span id="cartSummaryCount">0 items</span><strong>Ready to order?</strong></div>
+        <button class="cart-checkout-btn" id="cartCheckoutBtn">🚀 Checkout Now</button>
+        <button class="cart-clear-btn" id="cartClearBtn">Clear Cart</button>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-modal-overlay" id="checkoutModal">
+      <div class="checkout-modal">
+        <button class="checkout-close-btn" id="checkoutCloseBtn">&times;</button>
+        <h2>🛒 Checkout</h2>
+        <p class="sub">Review your items and confirm order</p>
+        <div class="checkout-items-summary"><div id="checkoutItemLines"></div></div>
+        <input type="text" id="checkoutName" placeholder="Your Full Name" />
+        <input type="email" id="checkoutEmail" placeholder="Your Email Address" />
+        <input type="tel" id="checkoutPhone" placeholder="Your Phone Number" />
+        <button class="checkout-submit-btn" id="checkoutSubmitBtn">CONFIRM ORDER</button>
+        <div class="checkout-msg" id="checkoutMsg"></div>
+      </div>
+    </div>
+
+    <!-- Main Banner -->
+    <section class="main-banner5">
+      <div class="banner-content5">
+        <h1>About Us</h1>
+        <p>
+          At Gaming Store, we are dedicated to delivering unparalleled quality
+          and innovation. Explore our mission and values as we strive to lead
+          the industry and redefine the gaming experience for enthusiasts around
+          the world.
+        </p>
+        <a href="contact.html" class="btn">Contact us</a>
+      </div>
+    </section>
+
+    <section class="imgSec">
+      <div class="about-content">
+        <div class="about-image">
+          <img
+            src="https://thumbs.dreamstime.com/b/playful-top-down-view-colorful-gaming-accessories-discover-featuring-vibrant-including-keyboard-controllers-perfect-337017798.jpg"
+            alt="Our Story"
+          />
+        </div>
+        <div class="about-text">
+          <h3>Our Story</h3>
+          <p>
+            Gaming Accessories Store began as a small initiative driven by
+            passion. Today, it is a hub for gamers worldwide. Our team works
+            tirelessly to ensure your gaming experience reaches new heights.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <div class="about-text">
+          <h3>Our Mission</h3>
+          <p>
+            To offer gamers of all skill levels top-quality gear that enhances
+            every moment of play. From competitive edge to immersive
+            experiences, we aim to deliver excellence.
+          </p>
+        </div>
+        <div class="about-image">
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/039/375/583/small/two-joystick-gaming-controller-on-light-blue-background-minimalism-photo.jpg"
+            alt="Our Mission"
+          />
+        </div>
+      </div>
+
+      <div class="about-content">
+        <div class="about-image">
+          <img
+            src="https://5.imimg.com/data5/SELLER/Default/2021/2/LB/PV/DO/13593399/microsoft-xbox-one-s-1-tb-13-top-games-brand-new-500x500.jpg"
+            alt="Why Choose Us"
+          />
+        </div>
+        <div class="about-text">
+          <h3>Why Choose Us?</h3>
+          <p>
+            With a curated selection of premium products, excellent service, and
+            fast shipping, we are your trusted gaming partner. Every product we
+            offer is handpicked to ensure quality and reliability.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Gaming Accessories. All rights reserved.</p>
+    </footer>
+      <script src="cart.js"></script>
+  </body>
+</html>
