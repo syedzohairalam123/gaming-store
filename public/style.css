@@ -990,63 +990,184 @@ nav .logo-link h1 span{color:#ff4747}
 .card img{transition:transform 0.4s ease !important}
 .card:hover img{transform:scale(1.04) !important}
 
-/* ==========================================================================
-   RESPONSIVE DESIGN (Laptop, Tablet, aur Mobile ke liye special settings)
-   ========================================================================== */
 
-/* 1. TABLET AND SMALL SCREENS (Max width 992px) */
-@media (max-width: 992px) {
-    /* Categories ya Products ka grid ab 3 ki jagah 2 columns dikhayega */
-    .featured-categories, .product-grid, .grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 15px !important;
-        padding: 10px !important;
-    }
+
+/* ================================================
+   BOOTSTRAP NAVBAR + RESPONSIVE MEDIA QUERIES
+   ================================================ */
+
+/* --- Bootstrap Navbar Custom Styling --- */
+.gs-nav {
+  background-color: #1e1e2d !important;
+  border-bottom: 2px solid #ff4747;
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  padding: 10px 0;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.4);
+}
+.gs-brand {
+  text-decoration: none;
+}
+.gs-brand .brand-text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+.gs-brand .brand-red {
+  color: #ff4747;
+}
+.gs-nav .navbar-nav .nav-link {
+  color: #ccc !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 14px !important;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+.gs-nav .navbar-nav .nav-link:hover,
+.gs-nav .navbar-nav .nav-link.active {
+  color: #ff4747 !important;
+  background: rgba(255,71,71,0.1);
+}
+.gs-nav .navbar-toggler {
+  border: 1.5px solid #ff4747;
+  padding: 5px 10px;
+}
+.gs-nav .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+.gs-nav .navbar-collapse {
+  background-color: #1e1e2d;
+}
+@media (max-width: 991px) {
+  .gs-nav .navbar-collapse {
+    padding: 10px 0;
+    border-top: 1px solid #2a2a3e;
+    margin-top: 8px;
+  }
+}
+.cart-text {
+  display: inline;
+}
+@media (max-width: 400px) {
+  .cart-text { display: none; }
+  .cart-nav-btn { padding: 7px 10px; font-size: 1rem; }
 }
 
-/* 2. MOBILE SCREENS (Max width 600px) - Jo masla aapki pic mein hai */
-@media (max-width: 600px) {
-    /* Navbar ke links ko ek ke niche ek ya scannable lagane ke liye */
-    nav ul {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
+/* --- Cards Responsive (keeping existing flex layout) --- */
+@media (max-width: 1200px) {
+  .card { width: 260px !important; }
+}
+@media (max-width: 992px) {
+  .card { width: 240px !important; }
+  .cards-container { gap: 20px !important; }
+}
+@media (max-width: 768px) {
+  .card { width: 90% !important; max-width: 360px; }
+  .cards-container { gap: 16px !important; }
+  .cards-section { padding: 40px 15px !important; }
+  .cards-section h2 { font-size: 1.8rem !important; }
+}
+@media (max-width: 480px) {
+  .card { width: 100% !important; max-width: 100%; }
+  .cards-container { padding: 0 10px; gap: 14px !important; }
+}
 
-    /* Mobile par har card poori width le ga taake saaf saaf nazar aaye */
-    .featured-categories, .product-grid, .grid {
-        grid-template-columns: repeat(1, 1fr) !important;
-        padding: 10px !important;
-    }
+/* --- Banner Responsive --- */
+@media (max-width: 768px) {
+  .main-banner1, .main-banner2, .main-banner3,
+  .main-banner4, .main-banner5 {
+    min-height: 50vh !important;
+    padding: 40px 20px !important;
+    background-attachment: scroll !important;
+  }
+  .banner-content1 h1, .banner-content2 h1,
+  .banner-content3 h1, .banner-content4 h1,
+  .banner-content5 h1 {
+    font-size: 2rem !important;
+  }
+  .banner-content1 p, .banner-content2 p,
+  .banner-content3 p, .banner-content4 p { font-size: 1rem !important; }
+}
+@media (max-width: 480px) {
+  .banner-content1 h1, .banner-content2 h1 { font-size: 1.5rem !important; }
+}
 
-    /* Cards ke andar ki spacing aur box sahi karne ke liye */
-    .category-card, .product-card {
-        margin-bottom: 15px;
-        padding: 15px !important;
-    }
+/* --- About Section Responsive --- */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column !important;
+    padding: 20px 15px !important;
+  }
+  .about-image, .about-text { width: 100% !important; }
+  .about-image img { max-height: 220px; object-fit: cover; }
+}
 
-    /* Images ko card se bahar nikalne se rokne ke liye */
-    .category-card img, .product-card img {
-        width: 100% !important;
-        height: auto !important;
-        object-fit: contain;
-    }
+/* --- Gallery Responsive --- */
+@media (max-width: 768px) {
+  .gallery-container {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+}
+@media (max-width: 480px) {
+  .gallery-container {
+    grid-template-columns: 1fr !important;
+  }
+}
 
-    /* Buttons (+ Add to Cart / Buy Now) ko mobile par barabar aur sahi dikhane ke liye */
-    .card-buttons, .button-group {
-        display: flex;
-        flex-direction: column; /* Mobile par buttons upar niche ho jayenge taake text chhota na ho */
-        gap: 8px !important;
-    }
+/* --- Contact Section Responsive --- */
+@media (max-width: 768px) {
+  .contact-section {
+    flex-direction: column !important;
+    padding: 30px 15px !important;
+  }
+  .contact-form, .contact-info { width: 100% !important; }
+  .map-section iframe { height: 250px !important; }
+}
 
-    .card-buttons button, .btn {
-        width: 100% !important;
-        padding: 10px !important;
-        font-size: 14px !important;
-    }
+/* --- FAQs Responsive --- */
+@media (max-width: 768px) {
+  .faqs-container {
+    flex-direction: column !important;
+    padding: 0 15px !important;
+  }
+  .faqs-left, .faqs-right { width: 100% !important; }
+  .faqs-section { padding: 40px 15px !important; }
+}
 
-    /* Heading text ka size mobile ke hisab se chota karne ke liye */
-    h1 { font-size: 24px !important; }
-    h2 { font-size: 20px !important; }
-    p { font-size: 14px !important; }
+/* --- Center Image Section Responsive --- */
+@media (max-width: 991px) {
+  .stylish-center-image-section {
+    flex-direction: column !important;
+    text-align: center;
+    padding: 40px 20px !important;
+  }
+  .content-left, .content-right, .center-image { width: 100% !important; }
+  .center-image img { max-width: 260px; margin: 0 auto; display: block; }
+}
+
+/* --- Reviews Responsive --- */
+@media (max-width: 768px) {
+  .reviews-container {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0 15px !important;
+  }
+  .review-card { width: 100% !important; max-width: 400px !important; }
+}
+
+/* --- Cart Sidebar Mobile --- */
+@media (max-width: 480px) {
+  .cart-sidebar { width: 100% !important; right: -100% !important; }
+  .cart-sidebar.open { right: 0 !important; }
+}
+
+/* --- General Mobile Fixes --- */
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
+  footer { padding: 20px 15px !important; font-size: 0.85rem; }
+  .imgSec { padding: 20px 10px !important; }
 }
