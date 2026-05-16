@@ -989,3 +989,64 @@ nav .logo-link h1 span{color:#ff4747}
 .card:hover{transform:translateY(-6px) !important;box-shadow:0 16px 40px rgba(255,71,71,0.15) !important}
 .card img{transition:transform 0.4s ease !important}
 .card:hover img{transform:scale(1.04) !important}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Laptop, Tablet, aur Mobile ke liye special settings)
+   ========================================================================== */
+
+/* 1. TABLET AND SMALL SCREENS (Max width 992px) */
+@media (max-width: 992px) {
+    /* Categories ya Products ka grid ab 3 ki jagah 2 columns dikhayega */
+    .featured-categories, .product-grid, .grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+        padding: 10px !important;
+    }
+}
+
+/* 2. MOBILE SCREENS (Max width 600px) - Jo masla aapki pic mein hai */
+@media (max-width: 600px) {
+    /* Navbar ke links ko ek ke niche ek ya scannable lagane ke liye */
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    /* Mobile par har card poori width le ga taake saaf saaf nazar aaye */
+    .featured-categories, .product-grid, .grid {
+        grid-template-columns: repeat(1, 1fr) !important;
+        padding: 10px !important;
+    }
+
+    /* Cards ke andar ki spacing aur box sahi karne ke liye */
+    .category-card, .product-card {
+        margin-bottom: 15px;
+        padding: 15px !important;
+    }
+
+    /* Images ko card se bahar nikalne se rokne ke liye */
+    .category-card img, .product-card img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain;
+    }
+
+    /* Buttons (+ Add to Cart / Buy Now) ko mobile par barabar aur sahi dikhane ke liye */
+    .card-buttons, .button-group {
+        display: flex;
+        flex-direction: column; /* Mobile par buttons upar niche ho jayenge taake text chhota na ho */
+        gap: 8px !important;
+    }
+
+    .card-buttons button, .btn {
+        width: 100% !important;
+        padding: 10px !important;
+        font-size: 14px !important;
+    }
+
+    /* Heading text ka size mobile ke hisab se chota karne ke liye */
+    h1 { font-size: 24px !important; }
+    h2 { font-size: 20px !important; }
+    p { font-size: 14px !important; }
+}
