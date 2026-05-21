@@ -23,14 +23,19 @@ app.get('/login',     (req,res) => res.sendFile(path.join(__dirname,'public','lo
 app.get('/signup',    (req,res) => res.sendFile(path.join(__dirname,'public','signup.html')));
 app.get('/my-orders', (req,res) => res.sendFile(path.join(__dirname,'public','my-orders.html')));
 
-// Start server
-const PORT = process.env.PORT || 3000;
-connectDB().then(async () => {
-  await seedProducts();
+// Database connect karein, bina Vercel ko block kiye
+connectDB()
+  .then(() => seedProducts())
+  .catch(err => console.error('DB connection failed:', err));
+
+// Sirf aapke laptop (localhost) pe chalane ke liye, Vercel khud server handle karta hai
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n🚀 Gaming Store LIVE: http://localhost:${PORT}`);
     console.log(`🔐 Admin Panel:       http://localhost:${PORT}/admin`);
   });
-}).catch(err => { console.error('DB connection failed:', err); process.exit(1); });
+}
 
+// Yeh sabse zaroori line hai Vercel ko batane ke liye
 module.exports = app;
