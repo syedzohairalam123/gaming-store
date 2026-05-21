@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Panel — Gaming Store</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body class="admin-body">
+
+<!-- LOGIN SCREEN -->
+<div id="adminLogin" class="admin-login-page">
+  <div class="admin-login-card">
+    <div class="auth-icon">🔐</div>
+    <h2>Admin Panel</h2>
+    <p>Gaming Store Management</p>
+    <input type="password" id="adminPassInput" placeholder="Enter admin password"/>
+    <button id="adminLoginBtn" class="auth-btn">Enter Dashboard</button>
+    <div id="adminLoginMsg" class="auth-msg"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="adminDashboard" style="display:none">
+  <div class="admin-sidebar">
+    <div class="admin-logo">🎮 Admin</div>
+    <nav class="admin-nav">
+      <a class="admin-nav-link active" data-tab="orders" onclick="showTab('orders')">📋 Orders</a>
+      <a class="admin-nav-link" data-tab="products" onclick="showTab('products')">🎮 Products</a>
+      <a class="admin-nav-link" data-tab="users" onclick="showTab('users')">👥 Users</a>
+    </nav>
+    <button class="admin-logout-btn" onclick="adminLogout()">🚪 Logout</button>
+  </div>
+  <div class="admin-main">
+    <!-- Stats -->
+    <div class="admin-stats" id="adminStats"></div>
+
+    <!-- Orders Tab -->
+    <div id="tab-orders" class="admin-tab">
+      <div class="admin-tab-header">
+        <h3>All Orders</h3>
+        <div class="admin-filters">
+          <select id="statusFilter" onchange="loadOrders()">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <input type="text" id="searchFilter" placeholder="Search name/email..." oninput="loadOrders()"/>
+        </div>
+      </div>
+      <div id="ordersTable" class="admin-table-wrap"></div>
+    </div>
+
+    <!-- Products Tab -->
+    <div id="tab-products" class="admin-tab" style="display:none">
+      <div class="admin-tab-header"><h3>Products & Prices</h3></div>
+      <div id="productsTable" class="admin-table-wrap"></div>
+    </div>
+
+    <!-- Users Tab -->
+    <div id="tab-users" class="admin-tab" style="display:none">
+      <div class="admin-tab-header"><h3>Registered Users</h3></div>
+      <div id="usersTable" class="admin-table-wrap"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const API='/api/admin';
+let adminToken=localStorage.getItem('gs_admin_token')||'';
+const STATUS_COLORS={pending:'#f39c12',processing:'#3498db',shipped:'#9b59b6',delivered:'#2ecc71',cancelled:'#e74c3c'};
+const PAY_LABELS={cod:'💵 COD',jazzcash:'📱 JazzCash',easypaisa:'📱 EasyPaisa'};
+
+function authHeaders(){return{'Authorization':'Bearer '+adminToken,'Content-Type':'application/json'};}
+
+async function adminLogin(){
+  const pass=document.getElementById('adminPassInput').value;
+  const msg=document.getElementById('adminLoginMsg');
+  const btn=document.getElementById('adminLoginBtn');
+  btn.disabled=true; btn.textContent='Checking...';
+  try{
+    const res=await fetch('/api/auth/admin-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pass})});
+    const data=await res.json();
+    if(data.success){
+      adminToken=data.token;
+      localStorage.setItem('gs_admin_token',adminToken);
+      document.getElementById('adminLogin').style.display='none';
+      document.getElementById('adminDashboard').style.display='flex';
+      initDashboard();
+    }else{msg.textContent='❌ Wrong password.';msg.className='auth-msg error';}
+  }catch{msg.textContent='❌ Error.';msg.className='auth-msg error';}
+  finally{btn.disabled=false;btn.textContent='Enter Dashboard';}
+}
+
+function adminLogout(){localStorage.removeItem('gs_admin_token');adminToken='';document.getElementById('adminDashboard').style.display='none';document.getElementById('adminLogin').style.display='flex';}
+
+async function initDashboard(){
+  await loadStats(); await loadOrders(); await loadProducts(); await loadUsers();
+}
+
+async function loadStats(){
+  const res=await fetch(`${API}/stats`,{headers:authHeaders()});
+  const data=await res.json();
+  if(!data.success)return;
+  const s=data.stats;
+  document.getElementById('adminStats').innerHTML=`
+    <div class="stat-card"><div class="stat-num">${s.total}</div><div class="stat-label">Total Orders</div></div>
+    <div class="stat-card pending"><div class="stat-num">${s.pending}</div><div class="stat-label">Pending</div></div>
+    <div class="stat-card delivered"><div class="stat-num">${s.delivered}</div><div class="stat-label">Delivered</div></div>
+    <div class="stat-card revenue"><div class="stat-num">Rs. ${s.revenue.toLocaleString()}</div><div class="stat-label">Total Revenue</div></div>
+    <div class="stat-card"><div class="stat-num">${s.users}</div><div class="stat-label">Users</div></div>`;
+}
+
+async function loadOrders(){
+  const status=document.getElementById('statusFilter')?.value||'';
+  const search=document.getElementById('searchFilter')?.value||'';
+  const res=await fetch(`${API}/orders?status=${status}&search=${encodeURIComponent(search)}`,{headers:authHeaders()});
+  const data=await res.json();
+  if(!data.success)return;
+  const wrap=document.getElementById('ordersTable');
+  if(!data.orders.length){wrap.innerHTML='<div class="admin-empty">No orders found.</div>';return;}
+  wrap.innerHTML=`<table class="admin-table"><thead><tr><th>#</th><th>Customer</th><th>Items</th><th>Payment</th><th>Amount</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody>
+    ${data.orders.map(o=>`<tr>
+      <td><strong>#${o.id}</strong></td>
+      <td><div>${o.customerName}</div><div class="admin-sub">${o.customerEmail}</div><div class="admin-sub">${o.customerPhone}</div></td>
+      <td>${o.items.map(i=>`${i.name} x${i.qty}`).join('<br>')}</td>
+      <td><span class="pay-badge">${PAY_LABELS[o.paymentMethod]||o.paymentMethod}</span>${o.transactionId?`<div class="admin-sub">TX: ${o.transactionId}</div>`:''}</td>
+      <td><strong>Rs. ${o.totalAmount.toLocaleString()}</strong></td>
+      <td>${new Date(o.createdAt).toLocaleDateString('en-PK')}</td>
+      <td><span class="status-badge" style="background:${STATUS_COLORS[o.status]}">${o.status.toUpperCase()}</span></td>
+      <td><select class="status-select" onchange="updateStatus(${o.id},this.value)">
+        <option value="">Update...</option>
+        <option value="pending">Pending</option>
+        <option value="processing">Processing</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select></td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+async function updateStatus(id,status){
+  if(!status)return;
+  const res=await fetch(`${API}/orders/${id}/status`,{method:'PUT',headers:authHeaders(),body:JSON.stringify({status})});
+  const data=await res.json();
+  if(data.success){await loadStats();await loadOrders();}
+}
+
+async function loadProducts(){
+  const res=await fetch(`${API}/products`,{headers:authHeaders()});
+  const data=await res.json();
+  if(!data.success)return;
+  document.getElementById('productsTable').innerHTML=`<table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Price (Rs.)</th><th>Stock</th><th>Save</th></tr></thead><tbody>
+    ${data.products.map(p=>`<tr>
+      <td>${p.name}</td>
+      <td><span class="cat-badge">${p.category}</span></td>
+      <td><input type="number" id="price_${p.id}" value="${p.price}" class="admin-input"/></td>
+      <td><input type="number" id="stock_${p.id}" value="${p.stock}" class="admin-input"/></td>
+      <td><button class="save-btn" onclick="saveProduct(${p.id})">Save</button></td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+async function saveProduct(id){
+  const price=document.getElementById('price_'+id).value;
+  const stock=document.getElementById('stock_'+id).value;
+  const res=await fetch(`${API}/products/${id}`,{method:'PUT',headers:authHeaders(),body:JSON.stringify({price,stock})});
+  const data=await res.json();
+  if(data.success)alert('✅ Product updated!');
+}
+
+async function loadUsers(){
+  const res=await fetch(`${API}/users`,{headers:authHeaders()});
+  const data=await res.json();
+  if(!data.success)return;
+  document.getElementById('usersTable').innerHTML=`<table class="admin-table"><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Joined</th></tr></thead><tbody>
+    ${data.users.map(u=>`<tr><td>${u.id}</td><td>${u.name}</td><td>${u.email}</td><td>${u.phone||'-'}</td><td>${new Date(u.createdAt).toLocaleDateString('en-PK')}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+function showTab(tab){
+  document.querySelectorAll('.admin-tab').forEach(t=>t.style.display='none');
+  document.getElementById('tab-'+tab).style.display='block';
+  document.querySelectorAll('.admin-nav-link').forEach(l=>l.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('adminLoginBtn').addEventListener('click',adminLogin);
+  document.getElementById('adminPassInput').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin();});
+  if(adminToken){
+    // Verify existing token
+    fetch(`${API}/stats`,{headers:authHeaders()}).then(r=>{
+      if(r.ok){document.getElementById('adminLogin').style.display='none';document.getElementById('adminDashboard').style.display='flex';initDashboard();}
+    }).catch(()=>{});
+  }
+});
+</script>
+</body>
+</html>

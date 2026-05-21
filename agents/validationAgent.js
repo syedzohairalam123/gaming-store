@@ -1,14 +1,13 @@
 /**
  * ORDER VALIDATION AGENT
  * Specialized agent for validating order data before processing.
- * Ensures all required fields are present and properly formatted.
  */
 
-function validateOrder({ customerName, customerEmail, customerPhone, productName }) {
+function validateOrder({ customerName, customerEmail, customerPhone, items, productName }) {
   const errors = [];
 
   if (!customerName || customerName.trim().length < 2) {
-    errors.push('Valid customer name is required (minimum 2 characters).');
+    errors.push('Valid customer name is required.');
   }
 
   if (!customerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
@@ -19,8 +18,12 @@ function validateOrder({ customerName, customerEmail, customerPhone, productName
     errors.push('Valid phone number is required.');
   }
 
-  if (!productName || productName.trim().length < 2) {
-    errors.push('Product name is required.');
+  // Check for either a Cart array (items) OR a direct Buy Now string (productName)
+  const hasCartItems = items && Array.isArray(items) && items.length > 0;
+  const hasSingleProduct = productName && productName.trim().length >= 2;
+
+  if (!hasCartItems && !hasSingleProduct) {
+    errors.push('Order must contain at least one product.');
   }
 
   return {

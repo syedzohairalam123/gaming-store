@@ -1,136 +1,138 @@
 const nodemailer = require('nodemailer');
 
 function createTransport() {
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.ADMIN_EMAIL,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+  return nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.ADMIN_EMAIL, pass: process.env.EMAIL_PASS } });
 }
 
-// Cart items ko email table mein convert karta hai
+const PAY_LABELS = { jazzcash: '📱 JazzCash', easypaisa: '📱 EasyPaisa', cod: '💵 Cash on Delivery' };
+const STATUS_COLORS = { jazzcash: '#2ecc71', easypaisa: '#9b59b6', cod: '#e67e22' };
+
 function itemRows(items) {
   return items.map(i => `
     <tr>
-      <td style="padding:11px 16px;border-bottom:1px solid #eee;color:#333;font-size:14px;">${i.name}</td>
-      <td style="padding:11px 16px;border-bottom:1px solid #eee;color:#ff4747;font-weight:700;text-align:center;">x${i.qty}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #eee;color:#333;">${i.name}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #eee;text-align:center;color:#555;">x${i.qty}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #eee;text-align:right;color:#ff4747;font-weight:600;">Rs. ${(i.price*i.qty).toLocaleString()}</td>
     </tr>`).join('');
 }
 
-// Customer ko confirmation email
-async function sendCustomerConfirmation({ customerName, customerEmail, customerPhone, items }) {
+async function sendCustomerConfirmation({ customerName, customerEmail, customerPhone, items, paymentMethod, transactionId, orderId, totalAmount }) {
   const transporter = createTransport();
-  const total = items.reduce((s, i) => s + i.qty, 0);
+  const total = items.reduce((s,i) => s+i.qty, 0);
+  const payLabel = PAY_LABELS[paymentMethod] || paymentMethod;
+  const payColor = STATUS_COLORS[paymentMethod] || '#888';
 
   await transporter.sendMail({
     from: `"Gaming Store" <${process.env.ADMIN_EMAIL}>`,
     to: customerEmail,
-    subject: '✅ Your Order Has Been Placed Successfully!',
+    subject: `✅ Order #${orderId} Confirmed — Gaming Store`,
     html: `
-    <div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;border:1px solid #ddd;border-radius:10px;overflow:hidden;">
-      <div style="background:#1e1e2d;padding:30px;text-align:center;">
-        <h1 style="color:#ff4747;margin:0;">🎮 Gaming Store</h1>
-        <p style="color:#ccc;margin:5px 0 0;">Order Confirmation</p>
+    <div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;background:#0d0d1a;border-radius:12px;overflow:hidden;">
+      <div style="background:linear-gradient(135deg,#1a1a2e,#0d0d1a);padding:32px;text-align:center;border-bottom:3px solid #ff4747;">
+        <h1 style="color:#ff4747;margin:0;font-size:1.9rem;">🎮 GAMING STORE</h1>
+        <p style="color:#888;margin:6px 0 0;font-size:0.85rem;">ORDER CONFIRMED</p>
       </div>
-      <div style="padding:30px;background:#f9f9f9;">
-        <h2 style="color:#333;">Hi ${customerName}, your order is confirmed! 🎉</h2>
-        <p style="color:#555;font-size:15px;line-height:1.6;">
-          Thank you for shopping with Gaming Store! We've received your order and it's being processed.
-        </p>
+      <div style="padding:30px;">
+        <h2 style="color:#fff;margin:0 0 6px;">Hi ${customerName}! 🎉</h2>
+        <p style="color:#aaa;line-height:1.7;margin-bottom:22px;">Your order <strong style="color:#ff4747;">#${orderId}</strong> has been received and is being processed.</p>
 
-        <div style="background:#1e1e2d;border-radius:8px;overflow:hidden;margin:20px 0;">
-          <div style="padding:12px 18px;border-bottom:1px solid #333;">
+        <div style="background:#12121f;border-radius:10px;overflow:hidden;margin-bottom:20px;border:1px solid #2a2a3e;">
+          <div style="padding:12px 16px;background:#1a1a2e;display:flex;justify-content:space-between;">
             <strong style="color:#ff4747;">🛒 ORDER ITEMS (${total} item${total!==1?'s':''})</strong>
+            <strong style="color:#ff4747;">Total: Rs. ${totalAmount.toLocaleString()}</strong>
           </div>
           <table style="width:100%;border-collapse:collapse;background:#fff;">
-            <thead>
-              <tr style="background:#f0f0f0;">
-                <th style="padding:10px 16px;text-align:left;color:#666;font-size:12px;">PRODUCT</th>
-                <th style="padding:10px 16px;text-align:center;color:#666;font-size:12px;">QTY</th>
-              </tr>
-            </thead>
+            <thead><tr style="background:#f5f5f5;">
+              <th style="padding:10px 14px;text-align:left;color:#666;font-size:12px;">PRODUCT</th>
+              <th style="padding:10px 14px;text-align:center;color:#666;font-size:12px;">QTY</th>
+              <th style="padding:10px 14px;text-align:right;color:#666;font-size:12px;">PRICE</th>
+            </tr></thead>
             <tbody>${itemRows(items)}</tbody>
+            <tfoot><tr style="background:#fff3f3;">
+              <td colspan="2" style="padding:12px 14px;font-weight:700;color:#333;">Total Amount</td>
+              <td style="padding:12px 14px;text-align:right;font-weight:700;color:#ff4747;font-size:1.1rem;">Rs. ${totalAmount.toLocaleString()}</td>
+            </tr></tfoot>
           </table>
         </div>
 
-        <div style="background:#1e1e2d;color:white;padding:18px;border-radius:8px;margin:20px 0;">
-          <h3 style="color:#ff4747;margin-top:0;">👤 Your Details</h3>
-          <p style="margin:5px 0;"><strong>Name:</strong> ${customerName}</p>
-          <p style="margin:5px 0;"><strong>Phone:</strong> ${customerPhone}</p>
-          <p style="margin:5px 0;"><strong>Email:</strong> ${customerEmail}</p>
+        <div style="background:#12121f;border-radius:10px;padding:16px;margin-bottom:20px;border:1px solid #2a2a3e;">
+          <strong style="color:#ff4747;font-size:0.85rem;display:block;margin-bottom:10px;">💳 PAYMENT INFO</strong>
+          <p style="margin:5px 0;color:#ccc;"><b style="color:#fff;">Method:</b> <span style="color:${payColor};font-weight:600;">${payLabel}</span></p>
+          ${transactionId ? `<p style="margin:5px 0;color:#ccc;"><b style="color:#fff;">Transaction ID:</b> <span style="color:#2ecc71;">${transactionId}</span></p>` : ''}
+          <p style="margin:5px 0;color:#ccc;"><b style="color:#fff;">Status:</b> <span style="color:#f39c12;">⏳ Pending Verification</span></p>
         </div>
 
-        <div style="background:#fff3f3;border-left:4px solid #ff4747;padding:15px;border-radius:5px;">
-          <p style="margin:0;color:#333;font-size:15px;">
-            📦 <strong>Estimated Delivery:</strong> 1–2 Business Days<br/>
-            📞 <strong>Support:</strong> +123-234-1234<br/>
-            📧 <strong>Email:</strong> abc@gmail.com
-          </p>
+        <div style="background:#12121f;border-radius:10px;padding:16px;margin-bottom:20px;border:1px solid #2a2a3e;">
+          <strong style="color:#ff4747;font-size:0.85rem;display:block;margin-bottom:10px;">👤 YOUR DETAILS</strong>
+          <p style="margin:4px 0;color:#ccc;"><b style="color:#fff;">Name:</b> ${customerName}</p>
+          <p style="margin:4px 0;color:#ccc;"><b style="color:#fff;">Phone:</b> ${customerPhone}</p>
+          <p style="margin:4px 0;color:#ccc;"><b style="color:#fff;">Email:</b> ${customerEmail}</p>
         </div>
-        <p style="color:#888;font-size:13px;margin-top:20px;">
-          Our team will contact you to confirm delivery. Thank you for choosing Gaming Store!
-        </p>
+
+        <div style="background:linear-gradient(135deg,#1a0808,#2a0a0a);border-radius:10px;padding:16px;border-left:4px solid #ff4747;">
+          <p style="margin:4px 0;color:#ccc;font-size:0.9rem;">📦 <b style="color:#fff;">Delivery:</b> 1–2 Business Days</p>
+          <p style="margin:4px 0;color:#ccc;font-size:0.9rem;">📞 <b style="color:#fff;">Support:</b> +123-234-1234</p>
+          <p style="margin:4px 0;color:#ccc;font-size:0.9rem;">📧 <b style="color:#fff;">Email:</b> abc@gmail.com</p>
+        </div>
       </div>
-      <div style="background:#1e1e2d;padding:15px;text-align:center;">
-        <p style="color:#888;margin:0;font-size:12px;">© 2025 Gaming Accessories. All rights reserved.</p>
+      <div style="background:#12121f;padding:14px;text-align:center;border-top:1px solid #2a2a3e;">
+        <p style="color:#444;margin:0;font-size:0.75rem;">© 2025 Gaming Accessories. All rights reserved.</p>
       </div>
     </div>`
   });
-  console.log(`📧 Customer confirmation sent to: ${customerEmail}`);
+  console.log(`📧 Customer email → ${customerEmail}`);
 }
 
-// Admin ko order notification
-async function sendAdminNotification({ customerName, customerEmail, customerPhone, items }) {
+async function sendAdminNotification({ customerName, customerEmail, customerPhone, items, paymentMethod, transactionId, orderId, totalAmount }) {
   const transporter = createTransport();
-  const total = items.reduce((s, i) => s + i.qty, 0);
+  const total = items.reduce((s,i) => s+i.qty, 0);
+  const payLabel = PAY_LABELS[paymentMethod] || paymentMethod;
+  const payColor = STATUS_COLORS[paymentMethod] || '#888';
 
   await transporter.sendMail({
-    from: `"Gaming Store System" <${process.env.ADMIN_EMAIL}>`,
+    from: `"Gaming Store" <${process.env.ADMIN_EMAIL}>`,
     to: process.env.ADMIN_EMAIL,
-    subject: `🛒 New Order (${total} item${total!==1?'s':''}) — ${customerName}`,
+    subject: `🛒 New Order #${orderId} — ${customerName} — Rs. ${totalAmount.toLocaleString()}`,
     html: `
-    <div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;border:1px solid #ddd;border-radius:10px;overflow:hidden;">
-      <div style="background:#ff4747;padding:25px;text-align:center;">
-        <h1 style="color:white;margin:0;">🛒 New Order Received!</h1>
-        <p style="color:rgba(255,255,255,0.9);margin:5px 0 0;">${total} item${total!==1?'s':''} ordered</p>
+    <div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;background:#0d0d1a;border-radius:12px;overflow:hidden;">
+      <div style="background:#ff4747;padding:22px;text-align:center;">
+        <h1 style="color:#fff;margin:0;">🛒 NEW ORDER #${orderId}</h1>
+        <p style="color:rgba(255,255,255,0.9);margin:4px 0 0;">Rs. ${totalAmount.toLocaleString()} — ${total} item${total!==1?'s':''}</p>
       </div>
-      <div style="padding:30px;background:#f9f9f9;">
-
-        <div style="background:#fff;border-radius:8px;overflow:hidden;margin-bottom:20px;border:1px solid #ddd;">
-          <div style="padding:12px 18px;background:#1e1e2d;border-bottom:1px solid #333;">
-            <strong style="color:#ff4747;">ORDER ITEMS</strong>
-          </div>
-          <table style="width:100%;border-collapse:collapse;">
-            <thead>
-              <tr style="background:#f0f0f0;">
-                <th style="padding:10px 16px;text-align:left;color:#666;font-size:12px;">PRODUCT</th>
-                <th style="padding:10px 16px;text-align:center;color:#666;font-size:12px;">QTY</th>
-              </tr>
-            </thead>
+      <div style="padding:28px;">
+        <div style="background:#12121f;border-radius:10px;overflow:hidden;margin-bottom:18px;border:1px solid #2a2a3e;">
+          <div style="padding:12px 16px;background:#1a1a2e;"><strong style="color:#ff4747;">ORDER ITEMS</strong></div>
+          <table style="width:100%;border-collapse:collapse;background:#fff;">
+            <thead><tr style="background:#f5f5f5;">
+              <th style="padding:10px 14px;text-align:left;color:#666;font-size:12px;">PRODUCT</th>
+              <th style="padding:10px 14px;text-align:center;color:#666;font-size:12px;">QTY</th>
+              <th style="padding:10px 14px;text-align:right;color:#666;font-size:12px;">PRICE</th>
+            </tr></thead>
             <tbody>${itemRows(items)}</tbody>
+            <tfoot><tr style="background:#fff3f3;">
+              <td colspan="2" style="padding:12px 14px;font-weight:700;">Total</td>
+              <td style="padding:12px 14px;text-align:right;font-weight:700;color:#ff4747;">Rs. ${totalAmount.toLocaleString()}</td>
+            </tr></tfoot>
           </table>
         </div>
-
-        <table style="width:100%;border-collapse:collapse;font-size:15px;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #ddd;">
-          <tr style="background:#1e1e2d;color:white;">
-            <th style="padding:12px;text-align:left;">Field</th>
-            <th style="padding:12px;text-align:left;">Info</th>
-          </tr>
-          <tr><td style="padding:12px;border-bottom:1px solid #eee;"><strong>Name</strong></td><td style="padding:12px;border-bottom:1px solid #eee;">${customerName}</td></tr>
-          <tr><td style="padding:12px;border-bottom:1px solid #eee;"><strong>Email</strong></td><td style="padding:12px;border-bottom:1px solid #eee;">${customerEmail}</td></tr>
-          <tr><td style="padding:12px;"><strong>Phone</strong></td><td style="padding:12px;">${customerPhone}</td></tr>
-        </table>
-
-        <p style="margin-top:20px;color:#555;">Please process this order and contact the customer to confirm delivery.</p>
+        <div style="background:#12121f;border-radius:10px;padding:16px;margin-bottom:18px;border:1px solid #2a2a3e;">
+          <strong style="color:#ff4747;display:block;margin-bottom:10px;">💳 PAYMENT</strong>
+          <p style="margin:4px 0;color:#ccc;"><b style="color:#fff;">Method:</b> <span style="color:${payColor};font-weight:600;">${payLabel}</span></p>
+          ${transactionId ? `<p style="margin:4px 0;color:#ccc;"><b style="color:#fff;">Transaction ID:</b> <span style="color:#2ecc71;font-size:1.1rem;">${transactionId}</span></p>` : '<p style="margin:4px 0;color:#f39c12;">⚠️ Cash on Delivery — collect on delivery</p>'}
+        </div>
+        <div style="background:#12121f;border-radius:10px;padding:16px;border:1px solid #2a2a3e;">
+          <strong style="color:#ff4747;display:block;margin-bottom:10px;">👤 CUSTOMER</strong>
+          <p style="margin:4px 0;color:#ccc;"><b style="color:#fff;">Name:</b> ${customerName}</p>
+          <p style="margin:4px 0;color:#ccc;"><b style="color:#fff;">Email:</b> <a href="mailto:${customerEmail}" style="color:#ff4747;">${customerEmail}</a></p>
+          <p style="margin:4px 0;color:#ccc;"><b style="color:#fff;">Phone:</b> <a href="tel:${customerPhone}" style="color:#ff4747;">${customerPhone}</a></p>
+        </div>
       </div>
-      <div style="background:#1e1e2d;padding:15px;text-align:center;">
-        <p style="color:#888;margin:0;font-size:12px;">Gaming Store Admin Panel — Automated Notification</p>
+      <div style="background:#12121f;padding:14px;text-align:center;border-top:1px solid #2a2a3e;">
+        <p style="color:#444;margin:0;font-size:0.75rem;">Gaming Store Admin — Automated Notification</p>
       </div>
     </div>`
   });
-  console.log(`📨 Admin notification sent to: ${process.env.ADMIN_EMAIL}`);
+  console.log(`📨 Admin email → ${process.env.ADMIN_EMAIL}`);
 }
 
 module.exports = { sendCustomerConfirmation, sendAdminNotification };

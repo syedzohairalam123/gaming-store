@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>My Orders — Gaming Store</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg gs-nav">
+    <div class="container-fluid px-3">
+      <a class="navbar-brand gs-brand" href="index.html">Gaming<span class="brand-red">Store</span></a>
+      <div class="d-flex align-items-center gap-2">
+        <span id="navUserName" class="nav-username"></span>
+        <a href="my-orders.html" id="navOrdersLink" class="nav-orders-link active" style="display:none">📦 Orders</a>
+        <a href="#" id="navLogoutLink" class="nav-logout-link" style="display:none">Logout</a>
+        <a href="login.html" id="navLoginLink" class="nav-login-link">Login</a>
+      </div>
+    </div>
+  </nav>
+  <div class="orders-page">
+    <div class="container py-5">
+      <h2 class="orders-title">📦 My Orders</h2>
+      <div id="ordersContainer">
+        <div class="orders-loading">Loading your orders...</div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    const STATUS_COLORS={pending:'#f39c12',processing:'#3498db',shipped:'#9b59b6',delivered:'#2ecc71',cancelled:'#e74c3c'};
+    const PAY_LABELS={cod:'💵 Cash on Delivery',jazzcash:'📱 JazzCash',easypaisa:'📱 EasyPaisa'};
+    async function loadOrders(){
+      const token=localStorage.getItem('gs_token');
+      if(!token){window.location.href='/login.html';return;}
+      try{
+        const res=await fetch('/api/orders/my',{headers:{'Authorization':'Bearer '+token}});
+        const data=await res.json();
+        const container=document.getElementById('ordersContainer');
+        if(!data.success||!data.orders.length){container.innerHTML='<div class="no-orders"><div style="font-size:3rem">📦</div><p>No orders yet.<br><a href="products.html">Start Shopping!</a></p></div>';return;}
+        container.innerHTML=data.orders.map(o=>`
+          <div class="order-card">
+            <div class="order-card-header">
+              <div><strong class="order-id">Order #${o.id}</strong><span class="order-date">${new Date(o.createdAt).toLocaleDateString('en-PK',{day:'numeric',month:'short',year:'numeric'})}</span></div>
+              <span class="order-status" style="background:${STATUS_COLORS[o.status]||'#888'}">${o.status.toUpperCase()}</span>
+            </div>
+            <div class="order-items-list">
+              ${o.items.map(i=>`<div class="order-item-row"><span>🎮 ${i.name} x${i.qty}</span><span>Rs. ${(i.price*i.qty).toLocaleString()}</span></div>`).join('')}
+            </div>
+            <div class="order-card-footer">
+              <span class="order-payment">${PAY_LABELS[o.paymentMethod]||o.paymentMethod}${o.transactionId?' — TX: '+o.transactionId:''}</span>
+              <strong class="order-total">Total: Rs. ${o.totalAmount.toLocaleString()}</strong>
+            </div>
+          </div>`).join('');
+      }catch(e){document.getElementById('ordersContainer').innerHTML='<div class="no-orders"><p>Error loading orders. <a href="index.html">Go Home</a></p></div>';}
+    }
+    document.addEventListener('DOMContentLoaded',loadOrders);
+  </script>
+</body>
+</html>

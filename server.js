@@ -1,40 +1,36 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
 
-const orderRoutes = require('./routes/orderRoutes');
-const contactRoutes = require('./routes/contactRoutes');
+const cors    = require('cors');
+const path    = require('path');
+const { connectDB, seedProducts } = require('./database');
 
 const app = express();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static frontend files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// API Routes
-app.use('/api/orders', orderRoutes);
-app.use('/api/contact', contactRoutes);
+app.use('/api/auth',     require('./routes/authRoutes'));
+app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api/orders',   require('./routes/orderRoutes'));
+app.use('/api/admin',    require('./routes/adminRoutes'));
+app.use('/api/contact',  require('./routes/contactRoutes'));
 
-// Serve index.html for root
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+app.get('/',          (req,res) => res.sendFile(path.join(__dirname,'public','index.html')));
+app.get('/admin',     (req,res) => res.sendFile(path.join(__dirname,'public','admin.html')));
+app.get('/login',     (req,res) => res.sendFile(path.join(__dirname,'public','login.html')));
+app.get('/signup',    (req,res) => res.sendFile(path.join(__dirname,'public','signup.html')));
+app.get('/my-orders', (req,res) => res.sendFile(path.join(__dirname,'public','my-orders.html')));
 
-// Server start karne ka sahi tarika (Radmin aur Vercel dono ke liye)
+// Start server
 const PORT = process.env.PORT || 3000;
+connectDB().then(async () => {
+  await seedProducts();
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`\n🚀 Gaming Store LIVE: http://localhost:${PORT}`);
+    console.log(`🔐 Admin Panel:       http://localhost:${PORT}/admin`);
+  });
+}).catch(err => { console.error('DB connection failed:', err); process.exit(1); });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n🚀 Server is officially LIVE!`);
-    console.log(`🏠 Local access: http://localhost:${PORT}`);
-    
-    // Yahan apni asli Radmin IP likh dein (Sirf dekhne ke liye)
-    // Maslan agar aapki IP 26.100.20.30 hai toh niche wo likhein:
-    console.log(`🌐 Radmin Network: http://26.xxx.xxx.xxx:${PORT}`); 
-    
-    console.log(`\n💡 Tip: Make sure your Radmin VPN is ON and Firewall is allowing Node.js\n`);
-});
+module.exports = app;
