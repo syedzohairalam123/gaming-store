@@ -42,7 +42,7 @@
         container.innerHTML=data.orders.map(o=>`
           <div class="order-card">
             <div class="order-card-header">
-              <div><strong class="order-id">Order #${o.id}</strong><span class="order-date">${new Date(o.createdAt).toLocaleDateString('en-PK',{day:'numeric',month:'short',year:'numeric'})}</span></div>
+              <div><strong class="order-id">Order #${o.orderId || o.id}</strong><span class="order-date">${new Date(o.createdAt).toLocaleDateString('en-PK',{day:'numeric',month:'short',year:'numeric'})}</span></div>
               <span class="order-status" style="background:${STATUS_COLORS[o.status]||'#888'}">${o.status.toUpperCase()}</span>
             </div>
             <div class="order-items-list">
