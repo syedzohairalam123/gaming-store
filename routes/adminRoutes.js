@@ -44,8 +44,14 @@ router.put('/orders/:id/status', adminAuth, async (req, res) => {
   const { status } = req.body;
   const valid = ['pending','processing','shipped','delivered','cancelled'];
   if (!valid.includes(status)) return res.status(400).json({success:false, message:'Invalid status.'});
-  await Order.findOneAndUpdate({ orderId: parseInt(req.params.id) }, { status });
-  return res.json({ success:true, message:`Order #${req.params.id} → ${status}` });
+  
+  const orderId = parseInt(req.params.id);
+  if (isNaN(orderId)) {
+    return res.status(400).json({success:false, message:'Invalid Order ID format.'});
+  }
+
+  await Order.findOneAndUpdate({ orderId: orderId }, { status });
+  return res.json({ success:true, message:`Order #${orderId} → ${status}` });
 });
 
 router.get('/products', adminAuth, async (req, res) => {
@@ -57,7 +63,13 @@ router.get('/products', adminAuth, async (req, res) => {
 router.put('/products/:id', adminAuth, async (req, res) => {
   await connectDB();
   const { price, stock } = req.body;
-  await Product.findOneAndUpdate({ pid: parseInt(req.params.id) }, { price:parseInt(price), stock:parseInt(stock) });
+
+  const pid = parseInt(req.params.id);
+  if (isNaN(pid)) {
+    return res.status(400).json({success:false, message:'Invalid Product ID format.'});
+  }
+
+  await Product.findOneAndUpdate({ pid: pid }, { price:parseInt(price)||0, stock:parseInt(stock)||0 });
   return res.json({ success:true, message:'Updated.' });
 });
 
